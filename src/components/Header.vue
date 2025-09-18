@@ -4,7 +4,7 @@
             <h2 class="logo">MyNotes</h2>
         </div>
         <div class="right">
-            <input type="text" v-model="search" placeholder="Search notes..">
+            <input type="text" class="search" v-model="search" placeholder="Search notes..">
             <button class="add-btn" @click="$emit('add-note')">+Add Note</button>
         </div>
     </header>
