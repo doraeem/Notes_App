@@ -85,6 +85,24 @@ body,html,#app{
   padding: 20px;
   background: #fafafa;
 }
+.editor input.note-title {
+  width: 90%;
+  font-size: 18px;
+  padding: 8px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  border: 1px solid #69d12d;
+}
+
+.editor textarea.note-content {
+  width: 90%;
+  height: 300px;
+  font-size: 15px;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #69d12d;
+  resize: vertical;
+}
 .note-card {
   background: #fff;
   border-radius: 10px;
