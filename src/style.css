@@ -36,3 +36,87 @@ body,html,#app{
 .add-btn:hover {
   background: #45a049;
 }
+.main-layout {
+  display: flex;
+  height: calc(100vh - 60px);
+}
+.editor {
+  flex: 1;
+  padding: 20px;
+  background: #fafafa;
+}
+.note-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 18px;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.note-card-header{
+  display: flex;
+  justify-content: flex-end;
+  position: relative;
+}
+.menu-dots{
+  cursor: pointer;
+  font-size: 22px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+.menu-dots:hover {
+  background: #f0f0f0;
+}
+.menu-options {
+  position: absolute;
+  top: 25px;
+  right: 0;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+}
+.menu-options button {
+  padding: 8px 14px;  
+  font-size: 16px; 
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+}
+.menu-options button:hover {
+  background: #f0f0f0;
+}
+
+.editor .save-btn {
+  margin-top: 10px;
+  padding: 8px 16px;  
+  font-size: 16px;
+  border-radius: 8px;
+  background: #4caf50;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+}
+
+.editor .save-btn:hover {
+  background: #45a049;
+}
+.editor .refresh-btn {
+  padding: 8px 16px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: none;
+  background: #4caf50;
+  color: white;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.editor .refresh-btn:hover {
+  background: #45a049;
+}
