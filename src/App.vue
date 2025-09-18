@@ -40,7 +40,6 @@ function uid() {
 }
 
 
-
 function addNote() {
   const newNote = { id: uid(), title: '', content: '' }
   notes.value.push(newNote)
@@ -52,12 +51,12 @@ function selectNote(id) {
 }
 function saveNote(updatedNote) {
   const index = notes.value.findIndex(n => n.id === updatedNote.id)
-  if (index !== -1) notes.value[index] = updatedNote
-
+  if (index !== -1){
+     notes.value[index] = updatedNote
+  }
  
   localStorage.setItem('notes', JSON.stringify(notes.value))
 
-  
   activeNoteId.value = null
 }
 
