@@ -65,9 +65,6 @@ body,html,#app{
   cursor: pointer;
 }
 
-.sidebar li.active {
-  background: #c0e0ff;
-}
 
 .delete-btn {
   background: transparent;
