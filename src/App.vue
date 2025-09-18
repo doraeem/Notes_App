@@ -2,6 +2,14 @@
     <div id="app">
         <Header @add-note="addNote" @update-search="searchQuery = $event"></Header>
         <div class="main-layout">
+
+           <Sidebar
+               :notes="filteredNotes"
+               :activeNoteId="activeNoteId"
+               @select-note="selectNote"
+               @reorder-notes="reorderNotes"
+               @delete-note="deleteNote"
+            />
          
             <div class="editor">
                 <NoteCard
@@ -20,6 +28,8 @@
 import {ref,computed} from 'vue'
 import Header from './components/Header.vue';
 import NoteCard from './components/NoteCard.vue';
+import Sidebar from './components/Sidebar.vue';
+
 
 
 
