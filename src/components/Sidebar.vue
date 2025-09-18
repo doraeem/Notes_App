@@ -4,7 +4,7 @@
     <ul>
       <li v-for="(note, index) in notes" :key="note.id" draggable="true"
           @dragstart="dragStart(index)" @dragover.prevent @drop="drop(index)"
-          :class="{active: note.id === activeNoteId}">
+          >
         
         <span @click="$emit('select-note', note.id)">
           {{ note.title || 'Untitled Note' }}
