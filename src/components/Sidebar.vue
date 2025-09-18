@@ -28,5 +28,16 @@ const props = defineProps({
 
 const emit = defineEmits(['select-note', 'reorder-notes', 'delete-note'])
 
+const dragIndex = ref(null)
+function dragStart(index) { dragIndex.value = index }
+function drop(dropIndex) {
+  if (dragIndex.value === null) return
+  const newNotes = [...props.notes]
+  const moved = newNotes.splice(dragIndex.value, 1)[0]
+  newNotes.splice(dropIndex, 0, moved)
+  emit('reorder-notes', newNotes)
+  dragIndex.value = null
+}
+
 
 </script>
