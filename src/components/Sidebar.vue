@@ -17,7 +17,7 @@
           <button class="menu-btn" @click="toggleMenu(note.id)">⋮</button>
           <div v-if="openMenuId === note.id" class="menu-dropdown">
             <button @click="$emit('delete-note', note.id)">Delete</button>
-            <button @click="$emit('edit-note', note.id)">Edit</button>
+            <button @click="$emit('select-note', note.id)">Edit</button>
             <button @click="$emit('rename-note', note.id)">Rename</button>
           </div>
         </div>
@@ -27,7 +27,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 
 const props = defineProps({
   notes: Array,
@@ -37,9 +37,26 @@ const props = defineProps({
 const emit = defineEmits(['add-note','select-note', 'reorder-notes', 'delete-note'])
 
 const openMenuId = ref(null)
+
 function toggleMenu(noteId) {
   openMenuId.value = openMenuId.value === noteId ? null : noteId
 }
+function handleClickOutside(event) {
+  const menus = document.querySelectorAll('.menu-wrapper')
+  let clickedInside = false
+  menus.forEach(menu => {
+    if (menu.contains(event.target)) clickedInside = true
+  })
+     if (!clickedInside) openMenuId.value = null
+}
+
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside)
+})
+
+onBeforeUnmount(() => {
+  document.removeEventListener('click', handleClickOutside)
+})
 
 const dragIndex = ref(null)
 function dragStart(index) { dragIndex.value = index }
