@@ -279,9 +279,17 @@ body, html, #app {
   border: 1px solid #69d12d;
   resize: vertical;
 }
-.note-card-body {
-  position: relative; 
+
+
+.note-content {
+  width: 100%;
+  min-height: 200px;      /* or your desired height */
+  max-height: 500px;      /* optional */
+  overflow-y: auto;       /* scroll if content is too tall */
+  box-sizing: border-box;
 }
+
+
 
 .sticky-container {
   display: flex;        
@@ -309,5 +317,4 @@ body, html, #app {
   outline: none;
   font-size: 14px;
 }
-
 
