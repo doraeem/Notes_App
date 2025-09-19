@@ -1,11 +1,11 @@
 <template>
     <header class="app-header">
         <div class="left">
+            <img src="/icons/logo.png" alt="logo" class="logo-img">
             <h2 class="logo">MyNotes</h2>
         </div>
         <div class="right">
             <input type="text" class="search" v-model="search" placeholder="Search notes..">
-            <button class="add-btn" @click="$emit('add-note')">+Add Note</button>
         </div>
     </header>
 </template>
@@ -16,6 +16,6 @@ const search = ref('')
 watch(search, (val)=>{
     emit('update-search',val)
 })
-const emit = defineEmits(['add-note','update-search'])
+const emit = defineEmits(['update-search'])
 
 </script>

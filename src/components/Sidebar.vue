@@ -1,6 +1,9 @@
 <template>
   <aside class="sidebar">
-    <h3>Notes</h3>
+    <div class="sidebar-header">
+      <h3>Notes</h3>
+      <button class="add-btn" @click="$emit('add-note')"> + </button>
+     </div>
     <ul>
       <li v-for="(note, index) in notes" :key="note.id" draggable="true"
           @dragstart="dragStart(index)" @dragover.prevent @drop="drop(index)"
@@ -26,7 +29,7 @@ const props = defineProps({
   activeNoteId: String
 })
 
-const emit = defineEmits(['select-note', 'reorder-notes', 'delete-note'])
+const emit = defineEmits(['add-note','select-note', 'reorder-notes', 'delete-note'])
 
 const dragIndex = ref(null)
 function dragStart(index) { dragIndex.value = index }
