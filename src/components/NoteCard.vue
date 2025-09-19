@@ -12,7 +12,7 @@
         <img src="/icons/sticky.png" alt="Sticky" class="icon" /> 
       </button>
 
-      <button v-show="true" class="action-btn" @click="saveAsFile" title="Save as File">
+      <button v-show="true" class="action-btn" @click="saveAsPDF" title="Save as PDF">
         <img src="/icons/saveAs.png" alt="Save" class="icon" /> 
       </button>
 
@@ -61,6 +61,7 @@
 
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue'
+import jsPDF from 'jspdf'
 
 const props= defineProps({
     note:Object
@@ -138,6 +139,39 @@ function refreshNote() {
   editing.value = false
   firstOpen.value = false
 }
+
+// Save as PDF
+
+
+function saveAsPDF() {
+  const doc = new jsPDF()
+
+  doc.setFontSize(16)
+  doc.text(`Title: ${props.note.title}`, 10, 20)
+
+  doc.setFontSize(12)
+  doc.text(`Content:`, 10, 40)
+  doc.text(props.note.content, 10, 50)
+
+  if (props.note.stickies && props.note.stickies.length > 0) {
+    let y = 70
+    doc.setFontSize(12)
+    doc.text('Sticky Notes:', 10, y)
+    y += 10
+
+    props.note.stickies.forEach((s, i) => {
+      doc.setFillColor(s.color || '#fffa65') 
+      doc.rect(10, y, 80, 30, 'F') 
+
+      doc.setTextColor(0, 0, 0) 
+      doc.text(s.text || '', 14, y + 10, { maxWidth: 72 })
+
+      y += 40 
+    })
+  }
+  doc.save(`${props.note.title || 'note'}.pdf`)
+}
+
 
 function saveNote() {
   emit('save-note', props.note)
