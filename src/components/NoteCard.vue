@@ -31,12 +31,14 @@
 
      <div class="note-card-body">
          
-        <textarea 
-          v-model="note.content" 
-          placeholder="Write your note here..." 
-          class="note-content" 
-          @input="onEdit"
-        ></textarea>
+     <div
+       class="note-content"
+        contenteditable="true"
+        v-html="note.content"
+        @input="updateContent"
+         placeholder="Write your note here..."
+></div>
+
 
      <div class="sticky-container">
        <div 
@@ -92,7 +94,6 @@ function addImage() {
   }
   fileInput.click()
 }
-
 //buttons change
 watch(() => props.note.id, (id) => {
   if (id) {
@@ -105,6 +106,10 @@ watch(() => props.note.id, (id) => {
     editing.value = false
   }
 })
+
+function updateContent(event) {
+  props.note.content = event.target.innerHTML
+}
 
 // Show Save button
 const showSave = computed(() => firstOpen.value || editing.value)
