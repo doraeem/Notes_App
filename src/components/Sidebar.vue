@@ -13,9 +13,14 @@
           {{ note.title || 'Untitled Note' }}
         </span>
         
-        <button class="delete-btn" @click="$emit('delete-note', note.id)">
-          🗑
-        </button>
+        <div class="menu-wrapper">
+          <button class="menu-btn" @click="toggleMenu(note.id)">⋮</button>
+          <div v-if="openMenuId === note.id" class="menu-dropdown">
+            <button @click="$emit('delete-note', note.id)">Delete</button>
+            <button @click="$emit('edit-note', note.id)">Edit</button>
+            <button @click="$emit('rename-note', note.id)">Rename</button>
+          </div>
+        </div>
       </li>
     </ul>
   </aside>
@@ -30,6 +35,11 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['add-note','select-note', 'reorder-notes', 'delete-note'])
+
+const openMenuId = ref(null)
+function toggleMenu(noteId) {
+  openMenuId.value = openMenuId.value === noteId ? null : noteId
+}
 
 const dragIndex = ref(null)
 function dragStart(index) { dragIndex.value = index }

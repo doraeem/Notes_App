@@ -1,11 +1,12 @@
 <template>
   <div id="app">
-    <Header @add-note="addNote" @update-search="searchQuery = $event" />
+    <Header @update-search="searchQuery = $event" />
 
     <div class="main-layout">
       <Sidebar
         :notes="filteredNotes"
         :activeNoteId="activeNoteId"
+        @add-note="addNote"
         @select-note="selectNote"
         @reorder-notes="reorderNotes"
         @delete-note="deleteNote"
@@ -65,6 +66,9 @@ function reorderNotes(newOrder) {
 }
 
 function deleteNote(id) {
+  const confirmed = confirm("Are you sure you want to delete this note?");
+  if(!confirmed) return;
+  
   notes.value = notes.value.filter(n => n.id !== id)
   if (activeNoteId.value === id) activeNoteId.value = null
 }
