@@ -8,9 +8,9 @@
              <button class="action-btn" @click="addImage" title="Add Image">
                  <img src="/icons/image.png" alt="add" class="icon">
              </button>
-            <button class="action-btn" @click="makeSticky" title="Sticky Note">
-                <img src="/icons/sticky.png" alt="Sticky" class="icon" /> 
-            </button>
+             <button class="action-btn" @click="makeSticky" title="Sticky Note">
+               <img :class="{ active: note.sticky }" src="/icons/sticky.png" alt="Sticky" class="icon" />
+             </button>
             <button class="action-btn" @click="saveAsFile" title="Save as File">
               <img src="/icons/saveAs.png" alt="Save" class="icon" /> 
             </button>
@@ -29,10 +29,12 @@
             class="note-title"
             />
             <textarea 
-            v-model="note.content"
-            placeholder="Write your note here.."
-            class="note-content">
-            </textarea>
+           v-model="note.content"
+           placeholder="Write your note here.."
+           class="note-content"
+          :class="{ sticky: note.sticky }">
+           </textarea>
+
         </div>
     </div>
     </template>
@@ -52,8 +54,9 @@ function addImage() {
 }
 
 function makeSticky() {
-  alert('Sticky Note feature placeholder')
+  emit('toggle-sticky', props.note.id)  
 }
+
 function refreshNote(){
     if(!props.note) return
     props.note.title = ''
