@@ -2,12 +2,22 @@
   <aside class="sidebar">
     <div class="sidebar-header">
       <h3>Notes</h3>
-      <button class="add-btn" @click="$emit('add-note')"> + </button>
-     </div>
+     <div class="header-actions">
+        <button class="drag-btn"  @click="toggleDragMode"> 
+          <img src="/icons/drag.png" alt="drag">
+        </button>
+       <button class="add-btn" @click="$emit('add-note')"> + </button>
+      </div>
+    </div>
+
     <ul>
-      <li v-for="(note, index) in notes" :key="note.id" draggable="true"
-          @dragstart="dragStart(index)" @dragover.prevent @drop="drop(index)"
-          >
+     <li v-for="(note, index) in notes" 
+        :key="note.id" 
+        :draggable="dragMode"
+        @dragstart="dragStart(index)" 
+        @dragover.prevent 
+        @drop="drop(index)"
+       :class="{active: note.id === activeNoteId}">
         
         <span @click="$emit('select-note', note.id)">
           {{ note.title || 'Untitled Note' }}
@@ -58,8 +68,18 @@ onBeforeUnmount(() => {
   document.removeEventListener('click', handleClickOutside)
 })
 
+// drag & drop
+const dragMode = ref(false)
 const dragIndex = ref(null)
-function dragStart(index) { dragIndex.value = index }
+
+function toggleDragMode() {
+  dragMode.value = !dragMode.value
+}
+
+function dragStart(index) {
+  dragIndex.value = index
+}
+
 function drop(dropIndex) {
   if (dragIndex.value === null) return
   const newNotes = [...props.notes]
