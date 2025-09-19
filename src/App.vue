@@ -15,10 +15,11 @@
       <div class="editor">
         
         <NoteCard
-           v-if="activeNote"
-           :note="activeNote"
-           @save-note="saveNote"
-           @go-back="goBack"
+          v-if="activeNote"
+      :note="activeNote"
+      @save-note="saveNote"
+      @go-back="goBack"
+      @toggle-sticky="toggleSticky"
         />
          <p v-else>Select a note or add a new one.</p>
       </div>
@@ -43,7 +44,7 @@ function uid() {
 
 
 function addNote() {
-  const newNote = { id: uid(), title: '', content: '' }
+  const newNote = { id: uid(), title: '', content: '', sticky: false }
   notes.value.push(newNote)
   activeNoteId.value = newNote.id
 }
@@ -77,6 +78,15 @@ function deleteNote(id) {
 function goBack(){
   activeNoteId.value = null
 }
+
+function toggleSticky(id) {
+  const note = notes.value.find(n => n.id === id)
+  if (note) {
+    note.sticky = !note.sticky
+    localStorage.setItem('notes', JSON.stringify(notes.value))
+  }
+}
+
 
 const filteredNotes = computed(() => {
   if (!searchQuery.value) return notes.value
