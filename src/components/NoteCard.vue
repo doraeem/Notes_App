@@ -28,16 +28,17 @@
             placeholder="Note Title"
             class="note-title"
             />
-            <textarea 
-           v-model="note.content"
-           placeholder="Write your note here.."
-           class="note-content"
-          :class="{ sticky: note.sticky }">
-           </textarea>
-
+         <div
+          class="note-content"
+          contenteditable="true"
+          v-html="note.content"
+          @input="updateContent"
+          :class="{ sticky: note.sticky }"
+          placeholder="Write your note here..">
         </div>
-    </div>
-    </template>
+   </div>
+  </div>
+ </template>
 
 <script setup>
 import {ref} from 'vue'
@@ -50,7 +51,25 @@ const emit = defineEmits(['save-note'])
 const menuOpen = ref(false)
 
 function addImage() {
-  alert('Add Image feature placeholder')
+  
+  const fileInput = document.createElement('input')
+  fileInput.type = 'file'
+  fileInput.accept = 'image/*' 
+
+  fileInput.onchange = () => {
+    const file = fileInput.files[0]
+    if (!file) return
+
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      const imageUrl = e.target.result
+
+      props.note.content += `\n<img src="${imageUrl}" alt="Image" style="max-width:100%; margin-top:10px;" />\n`
+    }
+    reader.readAsDataURL(file)
+  }
+
+  fileInput.click()
 }
 
 function makeSticky() {
@@ -68,4 +87,8 @@ function goBack(){
 function saveNote(){
     emit('save-note',props.note)
 }
+function updateContent(event) {
+  props.note.content = event.target.innerHTML
+}
+
 </script>
