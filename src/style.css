@@ -131,6 +131,10 @@ body, html, #app {
   background: #c0e0ff;
 }
 
+li.sticky {
+  background-color: #fff9c4;
+}
+
 .menu-wrapper {
   position: relative;
 }
@@ -195,6 +199,10 @@ body, html, #app {
   gap: 20px;
   z-index: 10;
 }
+.note-content.sticky {
+  background-color: #fff9c4; 
+  border: 2px solid #fdd835; 
+}
 
 .action-btn {
   width: auto; 
@@ -208,6 +216,12 @@ body, html, #app {
   justify-content: center;
   transition: transform 0.2s ease;
 }
+
+.action-btn .icon.active {
+    filter: hue-rotate(45deg) saturate(2);
+    box-shadow: 0 0 8px yellow;
+}
+
 
 .action-btn:hover {
   transform: scale(1.1); 
