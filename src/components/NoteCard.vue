@@ -1,14 +1,24 @@
 <template>
     <div class="note-card">
 
-        <div class="note-card-header">
-            <span class="menu-dots" @click="menuOpen = !menuOpen">⋮</span>
-            <div v-if="menuOpen" class="menu-options">
-               <button @click="addImage">Add Image</button>
-               <button @click="makeSticky">Sticky Note</button>
-               <button @click="saveAsFile">Save as File</button>
-            </div>
+        <div class="note-card-actions">
+             <button class="action-btn" @click="addImage" title="Add Image">
+                 <img src="/icons/image.png" alt="add" class="icon">
+             </button>
+            <button class="action-btn" @click="makeSticky" title="Sticky Note">
+                <img src="/icons/sticky.png" alt="Sticky" class="icon" /> 
+            </button>
+            <button class="action-btn" @click="saveAsFile" title="Save as File">
+              <img src="/icons/saveAs.png" alt="Save" class="icon" /> 
+            </button>
+           <button class="action-btn" @click="saveNote" title="Save">
+             <img src="/icons/save.png" alt="save-note" class="icon">
+           </button>
+           <button class="action-btn" @click="refreshNote" title="Refresh">
+             <img src="/icons/refresh.png" alt="refresh" class="icon">
+           </button>
         </div>
+
         <div class="note-card-body">
             <input type="text"
             v-model="note.title"
@@ -21,9 +31,6 @@
             class="note-content">
             </textarea>
         </div>
-        <button class="save-btn" @click="saveNote">Save</button>
-        <button class="refresh-btn" @click="refreshNote">Refresh</button>
-
     </div>
     </template>
 

@@ -1,51 +1,113 @@
-body,html,#app{
+body, html, #app {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
 }
-.app-header{
-  display:flex ;
+
+/* Header */
+.app-header {
+  display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 20px;
+  padding: 25px 24px;
   background: #c7e0c0;
 }
-.app-header .logo{
-  font-size: 20px;
-  font-weight: bold;
+
+.app-header .left {
+  display: flex;
+  align-items: center;
+  gap: 8px; 
 }
-.app-header .right{
+
+.logo-img {
+  height: 38px;  
+  width: auto;
+}
+
+.logo-text {
+  font-size: 25px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.app-header .right {
   display: flex;
   gap: 10px;
 }
-.app-header .search{
-  padding: 8px 14px;
-  font-size: 18px;
+
+.app-header .search {
+  padding: 8px 14px;  
+  font-size: 16px;    
   border-radius: 8px;
   border: 1px solid #ccc;
 }
-.add-btn{
-  padding: 8px 16px;
-  font-size: 16px;   
-  border-radius: 8px;
+
+/* Editor Styles */
+.editor input.note-title {
+  width: 90%;
+  font-size: 18px;
+  padding: 8px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  border: 1px solid #69d12d;
+}
+
+.editor textarea.note-content {
+  width: 90%;
+  height: 300px;
+  font-size: 15px;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #69d12d;
+  resize: vertical;
+}
+
+/* Main layout */
+.main-layout {
+  display: flex;
+  height: calc(100vh - 70px); 
+}
+
+/* Sidebar */
+.sidebar {
+  width: 260px;             
+  background: #f1f1f1;      
+  padding: 15px;
+  overflow-y: auto;
+  border-right: 1px solid #d0d0d0;
+}
+.sidebar-header {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;        
+  margin-top: 12px;
+  margin-bottom: 25px;
+}
+
+.sidebar-header h3 {
+  font-size: 25px;
+  margin: 0;
+}
+
+.add-btn {
+  /* width: 30px;               
+  height: 30px; */
+  font-size: 20px;
+  font-weight: bold;
+  border-radius: 50%;
   border: none;
   background: #4caf50;
   color: white;
   cursor: pointer;
-}
-.add-btn:hover {
-  background: #45a049;
-}
-.main-layout {
   display: flex;
-  height: calc(100vh - 60px);
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease, transform 0.15s ease;
 }
 
-.sidebar {
-  width: 250px;
-  background: #e0e0e0;
-  padding: 10px;
-  overflow-y: auto;
+.add-btn:hover {
+  background: #45a049;
+  transform: scale(1.1);
 }
 
 .sidebar ul {
@@ -65,42 +127,57 @@ body,html,#app{
   cursor: pointer;
 }
 
+.sidebar li.active {
+  background: #c0e0ff;
+}
 
+.menu-wrapper {
+  position: relative;
+}
 
-.delete-btn {
+.menu-btn {
   background: transparent;
   border: none;
-  color: #ff4d4f;
+  font-size: 20px;
   cursor: pointer;
-  font-size: 14px;
-  padding: 0 4px;
-}
-.delete-btn:hover {
-  color: #ff1a1a;
-}
-.editor {
-  flex: 1;
-  padding: 20px;
-  background: #fafafa;
-}
-.editor input.note-title {
-  width: 90%;
-  font-size: 18px;
-  padding: 8px;
-  margin-bottom: 10px;
-  border-radius: 6px;
-  border: 1px solid #69d12d;
+  padding: 2px;
 }
 
-.editor textarea.note-content {
-  width: 90%;
-  height: 300px;
-  font-size: 15px;
-  padding: 10px;
+.menu-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: #fff;
+  border: 1px solid #ddd;
   border-radius: 6px;
-  border: 1px solid #69d12d;
-  resize: vertical;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  display: flex;
+  flex-direction: column;
+  min-width: 120px;
+  z-index: 100;
 }
+
+.menu-dropdown button {
+  background: none;
+  border: none;
+  text-align: left;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.menu-dropdown button:hover {
+  background: #f5f5f5;
+}
+
+
+/* Editor area */
+.editor {
+  flex: 1;
+  padding: 30px;
+  background: #fafafa;
+}
+
 .note-card {
   background: #fff;
   border-radius: 10px;
@@ -108,44 +185,83 @@ body,html,#app{
   position: relative;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
-.note-card-header{
-  display: flex;
-  justify-content: flex-end;
-  position: relative;
-}
-.menu-dots{
-  cursor: pointer;
-  font-size: 22px;
-  padding: 4px 8px;
-  border-radius: 4px;
-  transition: background 0.2s;
-}
-.menu-dots:hover {
-  background: #f0f0f0;
-}
-.menu-options {
-  position: absolute;
-  top: 25px;
-  right: 0;
-  background: #fff;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+
+.note-card-actions {
   display: flex;
   flex-direction: column;
-  z-index: 100;
+  position: absolute;
+  top: 80px;
+  right: 30px;
+  gap: 20px;
+  z-index: 10;
 }
-.menu-options button {
-  padding: 8px 14px;  
-  font-size: 16px; 
-  background: none;
+
+.action-btn {
+  width: auto; 
+  height: auto;
+  padding: 0;
   border: none;
-  text-align: left;
+  background: transparent; 
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
 }
-.menu-options button:hover {
-  background: #f0f0f0;
+
+.action-btn:hover {
+  transform: scale(1.1); 
 }
+
+.action-btn .icon {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+
+.note-card-body .note-title {
+  width: 100%;
+  font-size: 20px;
+  padding: 8px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  border: 1px solid #69d12d;
+}
+
+.note-card-body .note-content {
+  width: 100%;
+  height: 300px;
+  font-size: 15px;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #69d12d;
+  resize: vertical;
+}
+
+/* Footer buttons
+.note-card-footer {
+  margin-top: 12px;
+}
+
+.note-card-footer .save-btn,
+.note-card-footer .refresh-btn {
+  padding: 8px 16px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: none;
+  background: #4caf50;
+  color: white;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: background 0.2s ease;
+}
+
+.note-card-footer .save-btn:hover,
+.note-card-footer .refresh-btn:hover {
+  background: #45a049;
+}
+
 
 .editor .save-btn {
   margin-top: 10px;
@@ -154,7 +270,6 @@ body,html,#app{
   border-radius: 8px;
   background: #4caf50;
   border: none;
-  border-radius: 6px;
   color: white;
   cursor: pointer;
 }
@@ -162,6 +277,7 @@ body,html,#app{
 .editor .save-btn:hover {
   background: #45a049;
 }
+
 .editor .refresh-btn {
   padding: 8px 16px;
   font-size: 16px;
@@ -175,4 +291,4 @@ body,html,#app{
 
 .editor .refresh-btn:hover {
   background: #45a049;
-}
+} */
