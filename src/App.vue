@@ -16,10 +16,9 @@
         
         <NoteCard
           v-if="activeNote"
-      :note="activeNote"
-      @save-note="saveNote"
-      @go-back="goBack"
-      @toggle-sticky="toggleSticky"
+         :note="activeNote"
+         @save-note="saveNote"
+         @go-back="goBack"
         />
          <p v-else>Select a note or add a new one.</p>
       </div>
@@ -42,7 +41,6 @@ function uid() {
   return 'n_' + Math.random().toString(36).substr(2, 9)
 }
 
-
 function addNote() {
   const newNote = { id: uid(), title: '', content: '', sticky: false }
   notes.value.push(newNote)
@@ -52,12 +50,12 @@ function addNote() {
 function selectNote(id) {
   activeNoteId.value = id
 }
+
 function saveNote(updatedNote) {
   const index = notes.value.findIndex(n => n.id === updatedNote.id)
   if (index !== -1){
      notes.value[index] = updatedNote
   }
- 
   localStorage.setItem('notes', JSON.stringify(notes.value))
 
   activeNoteId.value = null
@@ -78,15 +76,6 @@ function deleteNote(id) {
 function goBack(){
   activeNoteId.value = null
 }
-
-function toggleSticky(id) {
-  const note = notes.value.find(n => n.id === id)
-  if (note) {
-    note.sticky = !note.sticky
-    localStorage.setItem('notes', JSON.stringify(notes.value))
-  }
-}
-
 
 const filteredNotes = computed(() => {
   if (!searchQuery.value) return notes.value

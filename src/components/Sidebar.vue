@@ -19,16 +19,26 @@
         @drop="drop(index)"
        :class="{active: note.id === activeNoteId}">
         
-        <span @click="$emit('select-note', note.id)">
-          {{ note.title || 'Untitled Note' }}
-        </span>
+       <div class="note-title-wrapper">
+          <input 
+            v-if="renamingNoteId === note.id"
+            v-model="renameInput"
+            @keyup.enter="confirmRename(note.id)"
+            @blur="cancelRename"
+            class="rename-input"
+            autofocus
+          />
+          <span v-else @click="$emit('select-note', note.id)">
+            {{ note.title || 'Untitled Note' }}
+          </span>
+        </div>
         
         <div class="menu-wrapper">
           <button class="menu-btn" @click="toggleMenu(note.id)">⋮</button>
           <div v-if="openMenuId === note.id" class="menu-dropdown">
             <button @click="$emit('delete-note', note.id)">Delete</button>
             <button @click="$emit('select-note', note.id)">Edit</button>
-            <button @click="$emit('rename-note', note.id)">Rename</button>
+            <button @click="startRename(note)">Rename</button>
           </div>
         </div>
       </li>
@@ -67,6 +77,29 @@ onMounted(() => {
 onBeforeUnmount(() => {
   document.removeEventListener('click', handleClickOutside)
 })
+
+//Rename 
+
+const renamingNoteId = ref(null)
+const renameInput = ref('')
+
+function startRename(note) {
+  renamingNoteId.value = note.id
+  renameInput.value = note.title || ''
+  openMenuId.value = null
+}
+function confirmRename(noteId) {
+  const note = props.notes.find(n => n.id === noteId)
+  if (note) {
+    note.title = renameInput.value.trim() || 'Untitled Note'
+    emit('rename-note', note)
+  }
+  renamingNoteId.value = null
+}
+function cancelRename() {
+  renamingNoteId.value = null
+}
+
 
 // drag & drop
 const dragMode = ref(false)

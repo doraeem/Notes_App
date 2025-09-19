@@ -91,6 +91,7 @@ function addImage() {
   }
   fileInput.click()
 }
+
 //buttons change
 watch(() => props.note.id, (id) => {
   if (id) {
