@@ -18,6 +18,7 @@
            v-if="activeNote"
            :note="activeNote"
            @save-note="saveNote"
+           @go-back="goBack"
         />
          <p v-else>Select a note or add a new one.</p>
       </div>
@@ -68,11 +69,14 @@ function reorderNotes(newOrder) {
 function deleteNote(id) {
   const confirmed = confirm("Are you sure you want to delete this note?");
   if(!confirmed) return;
-  
+
   notes.value = notes.value.filter(n => n.id !== id)
   if (activeNoteId.value === id) activeNoteId.value = null
 }
 
+function goBack(){
+  activeNoteId.value = null
+}
 
 const filteredNotes = computed(() => {
   if (!searchQuery.value) return notes.value

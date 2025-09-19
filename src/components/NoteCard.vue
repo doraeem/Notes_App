@@ -2,6 +2,9 @@
     <div class="note-card">
 
         <div class="note-card-actions">
+             <button class="action-btn" @click="goBack" title="Go Back">
+               <img src="/icons/back.png" alt="back" class="icon" /> 
+             </button>
              <button class="action-btn" @click="addImage" title="Add Image">
                  <img src="/icons/image.png" alt="add" class="icon">
              </button>
@@ -56,7 +59,9 @@ function refreshNote(){
     props.note.title = ''
     props.note.content = ''
 }
-
+function goBack(){
+    emit('go-back')
+}
 function saveNote(){
     emit('save-note',props.note)
 }
