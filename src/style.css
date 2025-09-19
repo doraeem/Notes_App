@@ -284,6 +284,9 @@ body, html, #app {
 }
 
 .sticky-container {
+  display: flex;        
+  flex-wrap: wrap;    
+  gap: 10px;           
   position: relative; 
   margin-top: 15px;
 }
