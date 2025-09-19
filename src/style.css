@@ -120,8 +120,9 @@ body, html, #app {
   justify-content: space-between;
   align-items: center;
   padding: 8px;
+  font-weight: bold;
   margin-bottom: 4px;
-  background: #fff;
+  background: #b4dca8;
   border-radius: 4px;
   cursor: pointer;
 }
@@ -238,56 +239,3 @@ body, html, #app {
   resize: vertical;
 }
 
-/* Footer buttons
-.note-card-footer {
-  margin-top: 12px;
-}
-
-.note-card-footer .save-btn,
-.note-card-footer .refresh-btn {
-  padding: 8px 16px;
-  font-size: 16px;
-  border-radius: 8px;
-  border: none;
-  background: #4caf50;
-  color: white;
-  cursor: pointer;
-  margin-right: 10px;
-  transition: background 0.2s ease;
-}
-
-.note-card-footer .save-btn:hover,
-.note-card-footer .refresh-btn:hover {
-  background: #45a049;
-}
-
-
-.editor .save-btn {
-  margin-top: 10px;
-  padding: 8px 16px;  
-  font-size: 16px;
-  border-radius: 8px;
-  background: #4caf50;
-  border: none;
-  color: white;
-  cursor: pointer;
-}
-
-.editor .save-btn:hover {
-  background: #45a049;
-}
-
-.editor .refresh-btn {
-  padding: 8px 16px;
-  font-size: 16px;
-  border-radius: 8px;
-  border: none;
-  background: #4caf50;
-  color: white;
-  cursor: pointer;
-  margin-left: 10px;
-}
-
-.editor .refresh-btn:hover {
-  background: #45a049;
-} */
