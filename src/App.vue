@@ -82,12 +82,24 @@ function reorderNotes(newOrder) {
   persistNotes()
 }
 
+
 function togglePinNote(noteId) {
   const note = notes.value.find(n => n.id === noteId)
   if (!note) return
-  note.pinned = !note.pinned
-  reorderPinnedNotes()
-  persistNotes()
+
+  if (!note.pinned) {
+    note.originalIndex = notes.value.indexOf(note)
+  }
+   note.pinned = !note.pinned
+   
+  if (!note.pinned && note.originalIndex !== undefined) {
+    const currentIndex = notes.value.indexOf(note)
+    notes.value.splice(currentIndex, 1) 
+    notes.value.splice(note.originalIndex, 0, note) 
+    delete note.originalIndex 
+  } else {
+    reorderPinnedNotes()
+  }
 }
 
 function reorderPinnedNotes() {
