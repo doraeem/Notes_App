@@ -32,7 +32,7 @@ import Header from './components/Header.vue'
 import Sidebar from './components/Sidebar.vue'
 import NoteCard from "./components/NoteCard.vue";
 
-const notes = ref(JSON.parse(localStorage.getItem('notes') || '[]'))
+const notes = ref([])
 const activeNoteId = ref(null)
 const searchQuery = ref('')
 
@@ -62,7 +62,9 @@ function saveNote(updatedNote) {
   const index = notes.value.findIndex(n => n.id === updatedNote.id)
   if (index !== -1) 
     notes.value[index] = { ...updatedNote }
-  persistNotes()
+
+  localStorage.setItem('notes', JSON.stringify(notes.value))
+  
   activeNoteId.value = null
 }
 
