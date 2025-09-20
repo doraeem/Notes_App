@@ -10,7 +10,7 @@ body, html, #app {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 24px;
+  padding: 18px 22px;
   background: #c7e0c0;
 }
 
