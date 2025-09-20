@@ -10,7 +10,7 @@ body, html, #app {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 18px 24px;
+  padding: 25px 24px;
   background: #c7e0c0;
 }
 
@@ -21,7 +21,7 @@ body, html, #app {
 }
 
 .logo-img {
-  height: 38px; 
+  height: 38px;  
   width: auto;
 }
 
@@ -71,7 +71,6 @@ body, html, #app {
 }
 
 /* Sidebar */
-
 .sidebar {
   width: 260px;             
   background: #f1f1f1;      
@@ -79,6 +78,7 @@ body, html, #app {
   overflow-y: auto;
   border-right: 1px solid #d0d0d0; 
 }
+
 .sidebar-header {
   display: flex;
   justify-content: space-between; 
@@ -91,7 +91,9 @@ body, html, #app {
   font-size: 25px;
   margin: 0;
 }
-.drag-btn {
+
+.drag-btn,
+.fav-btn {
   width: 32px;
   height: 32px;
   border-radius: 50%;
@@ -104,12 +106,14 @@ body, html, #app {
   transition: background 0.2s ease, transform 0.15s ease;
 }
 
-.drag-btn img {
+.drag-btn img,
+.fav-btn img {
   width: 32px;
   height: 32px;
 }
 
-.drag-btn:hover {
+.drag-btn:hover,
+.fav-btn:hover {
   background: #d0d0d0;
   transform: scale(1.05);
 }
@@ -134,7 +138,6 @@ body, html, #app {
   background: #45a049;
   transform: scale(1.1);
 }
-/* Pin Note */
 
 .pin-icon {
   width: 16px;
@@ -142,7 +145,12 @@ body, html, #app {
   margin-left: 6px;
   vertical-align: middle;
 }
-
+.fav-icon{
+  width: 16px;
+  height: 16px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
 .sidebar ul {
   list-style: none;
   padding: 0;
@@ -155,7 +163,7 @@ body, html, #app {
   align-items: center;
   padding: 8px;
   margin-bottom: 4px;
-  background: #a9eda5;
+  background: #fff;
   border-radius: 4px;
   cursor: pointer;
 }
@@ -219,7 +227,6 @@ body, html, #app {
   background: #f5f5f5;
 }
 
-
 /* Editor area */
 .editor {
   flex: 1;
@@ -246,11 +253,11 @@ body, html, #app {
 }
 
 .action-btn {
-  width: auto; 
+  width: auto;
   height: auto;
   padding: 0;
   border: none;
-  background: transparent; 
+  background: transparent;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -259,7 +266,7 @@ body, html, #app {
 }
 
 .action-btn:hover {
-  transform: scale(1.1); 
+  transform: scale(1.1);
 }
 
 .action-btn .icon {
@@ -268,7 +275,10 @@ body, html, #app {
   object-fit: contain;
 }
 
-/* Inputs */
+.note-card-body {
+  position: relative; 
+}
+
 .note-card-body .note-title {
   width: 100%;
   font-size: 20px;
@@ -288,21 +298,10 @@ body, html, #app {
   resize: vertical;
 }
 
-
-.note-content {
-  width: 100%;
-  min-height: 200px;      /* or your desired height */
-  max-height: 500px;      /* optional */
-  overflow-y: auto;       /* scroll if content is too tall */
-  box-sizing: border-box;
-}
-
-
-
 .sticky-container {
-  display: flex;        
-  flex-wrap: wrap;    
-  gap: 10px;           
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
   position: relative; 
   margin-top: 15px;
 }
@@ -325,4 +324,3 @@ body, html, #app {
   outline: none;
   font-size: 14px;
 }
-
