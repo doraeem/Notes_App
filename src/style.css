@@ -10,7 +10,7 @@ body, html, #app {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 25px 24px;
+  padding: 20px 24px;
   background: #c7e0c0;
 }
 
@@ -21,7 +21,7 @@ body, html, #app {
 }
 
 .logo-img {
-  height: 38px;  
+  height: 38px; 
   width: auto;
 }
 
@@ -77,12 +77,13 @@ body, html, #app {
   padding: 15px;
   overflow-y: auto;
   border-right: 1px solid #d0d0d0; 
+  transition: width 0.3s ease;
 }
 
 .sidebar-header {
   display: flex;
-  justify-content: space-between; 
-  align-items: center;           
+  justify-content: space-between;
+  align-items: center;
   margin-top: 12px;
   margin-bottom: 25px;
 }
@@ -90,6 +91,7 @@ body, html, #app {
 .sidebar-header h3 {
   font-size: 25px;
   margin: 0;
+  white-space: nowrap;
 }
 
 .drag-btn,
@@ -139,18 +141,14 @@ body, html, #app {
   transform: scale(1.1);
 }
 
-.pin-icon {
+.pin-icon,
+.fav-icon {
   width: 16px;
   height: 16px;
   margin-left: 6px;
   vertical-align: middle;
 }
-.fav-icon{
-  width: 16px;
-  height: 16px;
-  margin-left: 6px;
-  vertical-align: middle;
-}
+
 .sidebar ul {
   list-style: none;
   padding: 0;
@@ -175,7 +173,7 @@ body, html, #app {
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 10px; 
+  gap: 10px;
 }
 
 .rename-input {
@@ -276,7 +274,7 @@ body, html, #app {
 }
 
 .note-card-body {
-  position: relative; 
+  position: relative;
 }
 
 .note-card-body .note-title {
@@ -323,4 +321,93 @@ body, html, #app {
   background: transparent;
   outline: none;
   font-size: 14px;
+}
+
+/* ================== Responsive Layout ================== */
+
+/* Tablet view */
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 180px; 
+  }
+
+  .sidebar-header h3 {
+    font-size: 20px;
+  }
+
+  .editor {
+    padding: 20px;
+  }
+
+  .editor input.note-title,
+  .editor textarea.note-content {
+    width: 100%;
+  }
+
+  .note-card-actions {
+    flex-direction: row;
+    position: static;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+  }
+}
+
+/* Mobile view */
+@media (max-width: 768px) {
+  .app-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .logo-text {
+    font-size: 20px;
+  }
+
+  .app-header .right {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .main-layout {
+    flex-direction: row; 
+    height: auto;
+  }
+
+  .sidebar {
+    width: 120px; 
+    padding: 10px 5px;
+  }
+
+  .sidebar-header h3 {
+    display: none; 
+  }
+
+  .sidebar li {
+    font-size: smaller;
+  }
+
+  .editor {
+    flex: 1;
+    padding: 15px;
+  }
+
+  .note-card-body .note-title,
+  .note-card-body .note-content {
+    width: 100%;
+  }
+
+  .note-card-actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    position: static;
+    margin-top: 10px;
+  }
+
+  .action-btn .icon {
+    width: 32px;
+    height: 32px;
+  }
 }
