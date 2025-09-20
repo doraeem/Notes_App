@@ -28,8 +28,11 @@
             class="rename-input"
             autofocus
           />
-          <span v-else @click="$emit('select-note', note.id)">
-            {{ note.title || 'Untitled Note' }}
+          <span 
+             v-else 
+              @click="$emit('select-note', note.id)" 
+              @dblclick="startRename(note)" >
+              {{ note.title || 'Untitled Note' }}
           </span>
         </div>
         
