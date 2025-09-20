@@ -33,6 +33,7 @@
               @click="$emit('select-note', note.id)" 
               @dblclick="startRename(note)" >
               {{ note.title || 'Untitled Note' }}
+              <img v-if="note.pinned" src="/icons/pin.png" alt="Pinned" class="pin-icon"/>
           </span>
         </div>
         
@@ -42,6 +43,9 @@
             <button @click="$emit('delete-note', note.id)">Delete</button>
             <button @click="$emit('select-note', note.id)">Edit</button>
             <button @click="startRename(note)">Rename</button>
+             <button @click="$emit('pin-note', note.id)">
+               {{ note.pinned ? 'Unpin Note' : 'Pin Note' }}
+            </button>
           </div>
         </div>
       </li>

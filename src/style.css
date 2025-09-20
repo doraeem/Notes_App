@@ -134,6 +134,14 @@ body, html, #app {
   background: #45a049;
   transform: scale(1.1);
 }
+/* Pin Note */
+
+.pin-icon {
+  width: 16px;
+  height: 16px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
 
 .sidebar ul {
   list-style: none;

@@ -10,6 +10,7 @@
         @select-note="selectNote"
         @reorder-notes="reorderNotes"
         @delete-note="deleteNote"
+        @pin-note="togglePinNote"
       />
 
       <div class="editor">
@@ -93,4 +94,19 @@ const activeNote = computed({
     if (index !== -1) notes.value[index] = updatedNote
   }
 })
+function togglePinNote(noteId) {
+  const note = notes.value.find(n => n.id === noteId)
+  if (note) {
+    note.pinned = !note.pinned 
+    notes.value = [...notes.value]
+    reorderNotesAfterPin() 
+  }
+}
+function reorderNotesAfterPin() {
+  notes.value.sort((a, b) => {
+    if (a.pinned && !b.pinned) return -1
+    if (!a.pinned && b.pinned) return 1
+    return 0
+  })
+}
 </script>
