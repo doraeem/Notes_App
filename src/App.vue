@@ -2,10 +2,9 @@
   <div id="app">
     <Header @update-search="searchQuery = $event" />
 
-    <!-- Mobile sidebar toggle button -->
+  
     <button class="menu-toggle" @click="toggleSidebar">☰</button>
 
-    <!-- Overlay for mobile sidebar -->
     <div class="sidebar-overlay" :class="{ active: showSidebar }" @click="toggleSidebar"></div>
 
     <div class="main-layout">
@@ -49,7 +48,7 @@ function uid() {
   return 'n_' + Math.random().toString(36).substr(2, 9)
 }
 
-// Persist notes
+
 watch(notes, (newVal) => {
   localStorage.setItem('notes', JSON.stringify(newVal))
 }, { deep: true })

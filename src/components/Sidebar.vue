@@ -6,9 +6,15 @@
         <button class="fav-btn" :class="{ active: showFavorites }" @click="toggleFavorites" title="Show Favorites">
           <img src="/icons/fav.png" alt="fav">
         </button>
-        <button class="drag-btn" @click="toggleDragMode">
-          <img src="/icons/drag.png" alt="drag">
-        </button>
+       <button 
+         class="drag-btn"  
+        :class="{ active: dragMode }"  
+         @click="toggleDragMode" 
+         title="Toggle Drag Mode"> 
+        <img 
+        :src="dragMode ? '/icons/drag-enabled.png' : '/icons/drag.png'" 
+         :alt="dragMode ? 'Drag Enabled' : 'Drag Disabled'">
+      </button>
         <button class="add-btn" @click="$emit('add-note')"> + </button>
       </div>
     </div>
@@ -56,8 +62,13 @@
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 
 const props = defineProps({
-  notes: { type: Array, required: true },
-  activeNoteId: { type: [String, Number], default: null }
+  notes: { 
+    type: Array, 
+    required: true },
+    
+  activeNoteId: { 
+    type: [String, Number], 
+    default: null }
 })
 
 const emit = defineEmits([
@@ -88,11 +99,17 @@ function toggleMenu(noteId) {
 function handleClickOutside(event) {
   const menus = document.querySelectorAll('.menu-wrapper')
   let clickedInside = false
-  menus.forEach(menu => { if(menu.contains(event.target)) clickedInside = true })
-  if(!clickedInside) openMenuId.value = null
+  menus.forEach(menu => { 
+    if(menu.contains(event.target)) 
+       clickedInside = true })
+  if(!clickedInside) 
+   openMenuId.value = null
 }
-onMounted(() => document.addEventListener('click', handleClickOutside))
-onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside))
+onMounted(() => 
+ document.addEventListener('click', handleClickOutside))
+
+onBeforeUnmount(() => 
+ document.removeEventListener('click', handleClickOutside))
 
 function startRename(note) {
   renamingNoteId.value = note.id
@@ -101,13 +118,21 @@ function startRename(note) {
 }
 function confirmRename(noteId) {
   const newTitle = renameInput.value.trim() || 'Untitled Note'
-  emit('rename-note', { id: noteId, title: newTitle })
+  emit('rename-note', { 
+    id: noteId, 
+    title: newTitle })
   renamingNoteId.value = null
 }
-function cancelRename() { renamingNoteId.value = null }
+function cancelRename() { 
+  renamingNoteId.value = null
+ }
 
-function toggleDragMode() { dragMode.value = !dragMode.value }
-function dragStart(index) { dragIndex.value = index }
+function toggleDragMode() { 
+  dragMode.value = !dragMode.value 
+}
+function dragStart(index) { 
+  dragIndex.value = index 
+}
 function drop(dropIndex) {
   if(dragIndex.value === null) return
   const newNotes = [...props.notes]
@@ -117,11 +142,14 @@ function drop(dropIndex) {
   dragIndex.value = null
 }
 
-function toggleFavorites() { showFavorites.value = !showFavorites.value }
+function toggleFavorites() { 
+  showFavorites.value = !showFavorites.value
+ }
 
 const filteredNotes = computed(() => {
   let notesList = props.notes
-  if (showFavorites.value) notesList = notesList.filter(n => n.favorite)
-  return notesList
+  if (showFavorites.value) 
+   notesList = notesList.filter(n => n.favorite)
+   return notesList
 })
 </script>
