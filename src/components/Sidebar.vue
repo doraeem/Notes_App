@@ -23,7 +23,8 @@
           @dragstart="dragStart(index)"
           @dragover.prevent
           @drop="drop(index)"
-          :class="{active: note.id === activeNoteId}">
+          :class="{active: note.id === activeNoteId}"
+           @click="$emit('select-note', note.id)" >
         
         <div class="note-title-wrapper">
           <input
@@ -36,7 +37,6 @@
           />
           <span 
             v-else 
-            @click="$emit('select-note', note.id)" 
             @dblclick="startRename(note)">
             {{ note.sidebarTitle || note.title || 'Untitled Note' }}
             <img v-if="note.pinned" src="/icons/pin.png" alt="Pinned" class="pin-icon"/>
@@ -72,6 +72,7 @@ const props = defineProps({
     type: [String, Number], 
     default: null }
 })
+
 const emit = defineEmits([
   'add-note',
   'select-note',
@@ -95,11 +96,17 @@ function toggleMenu(noteId) {
 function handleClickOutside(event) {
   const menus = document.querySelectorAll('.menu-wrapper')
   let clickedInside = false
-  menus.forEach(menu => { if(menu.contains(event.target)) clickedInside = true })
+  menus.forEach(menu => { 
+    if(menu.contains(event.target)) 
+    clickedInside = true 
+  })
   if(!clickedInside) openMenuId.value = null
 }
-onMounted(() => document.addEventListener('click', handleClickOutside))
-onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside))
+onMounted(() => 
+  document.addEventListener('click', handleClickOutside))
+
+onBeforeUnmount(() =>
+ document.removeEventListener('click', handleClickOutside))
 
 function startRename(note) {
   renamingNoteId.value = note.id
