@@ -2,6 +2,12 @@
   <div id="app">
     <Header @update-search="searchQuery = $event" />
 
+    <!-- Mobile sidebar toggle button -->
+    <button class="menu-toggle" @click="toggleSidebar">☰</button>
+
+    <!-- Overlay for mobile sidebar -->
+    <div class="sidebar-overlay" :class="{ active: showSidebar }" @click="toggleSidebar"></div>
+
     <div class="main-layout">
       <Sidebar
         :notes="filteredNotes"
@@ -12,6 +18,7 @@
         @delete-note="deleteNote"
         @pin-note="togglePinNote"
         @rename-note="renameSidebarTitle"
+        :class="{ show: showSidebar }"
       />
 
       <div class="editor">
@@ -36,6 +43,7 @@ import NoteCard from './components/NoteCard.vue'
 const notes = ref(JSON.parse(localStorage.getItem('notes')) || [])
 const activeNoteId = ref(null)
 const searchQuery = ref('')
+const showSidebar = ref(false)
 
 function uid() {
   return 'n_' + Math.random().toString(36).substr(2, 9)
@@ -58,22 +66,21 @@ function addNote() {
   }
   notes.value.push(newNote)
   activeNoteId.value = newNote.id
+  showSidebar.value = false
 }
 
 function selectNote(id) {
   activeNoteId.value = id
+  showSidebar.value = false
 }
 
 function saveNote(updatedNote) {
   const index = notes.value.findIndex(n => n.id === updatedNote.id)
   if (index !== -1) 
     notes.value[index] = { ...updatedNote }
-
-  // localStorage.setItem('notes', JSON.stringify(notes.value))
   
   activeNoteId.value = null
 }
-
 
 function deleteNote(id) {
   if (!confirm("Are you sure you want to delete this note?")) return
@@ -90,9 +97,8 @@ function togglePinNote(noteId) {
   const note = notes.value.find(n => n.id === noteId)
   if (!note) return
 
-  if (!note.pinned)
-   note.originalIndex = notes.value.indexOf(note)
-   note.pinned = !note.pinned
+  if (!note.pinned) note.originalIndex = notes.value.indexOf(note)
+  note.pinned = !note.pinned
 
   if (!note.pinned && note.originalIndex !== undefined) {
     const currentIndex = notes.value.indexOf(note)
@@ -123,10 +129,13 @@ function goBack() {
   activeNoteId.value = null
 }
 
-
 function renameSidebarTitle({ id, title }) {
   const note = notes.value.find(n => n.id === id)
-  if (note) 
-   note.sidebarTitle = title
+  if (note) note.sidebarTitle = title
+}
+
+// Sidebar toggle
+function toggleSidebar() {
+  showSidebar.value = !showSidebar.value
 }
 </script>
