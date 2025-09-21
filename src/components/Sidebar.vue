@@ -3,13 +3,13 @@
     <div class="sidebar-header">
       <h3>Notes</h3>
       <div class="header-actions">
-        <button class="fav-btn" 
-                :class="{ active: showFavorites }" 
-                @click="toggleFavorites" 
-                title="Show Favorites"> 
-            <img src="/icons/fav.png" alt="fav">
+        <button class="fav-btn"
+                :class="{ active: showFavorites }"
+                @click="toggleFavorites"
+                title="Show Favorites">
+          <img src="/icons/fav.png" alt="fav">
         </button>
-        <button class="drag-btn"  @click="toggleDragMode"> 
+        <button class="drag-btn" @click="toggleDragMode">
           <img src="/icons/drag.png" alt="drag">
         </button>
         <button class="add-btn" @click="$emit('add-note')"> + </button>
@@ -17,16 +17,16 @@
     </div>
 
     <ul>
-      <li v-for="(note, index) in filteredNotes" 
-          :key="note.id" 
+      <li v-for="(note, index) in filteredNotes"
+          :key="note.id"
           :draggable="dragMode"
-          @dragstart="dragStart(index)" 
-          @dragover.prevent 
+          @dragstart="dragStart(index)"
+          @dragover.prevent
           @drop="drop(index)"
           :class="{active: note.id === activeNoteId}">
-        
+
         <div class="note-title-wrapper">
-          <input 
+          <input
             v-if="renamingNoteId === note.id"
             v-model="renameInput"
             @keyup.enter="confirmRename(note.id)"
@@ -34,11 +34,11 @@
             class="rename-input"
             autofocus
           />
-          <span 
-            v-else 
-            @click="$emit('select-note', note.id)" 
+          <span
+            v-else
+            @click="$emit('select-note', note.id)"
             @dblclick="startRename(note)">
-            {{ note.title || 'Untitled Note' }}
+            {{ note.sidebarTitle || note.title || 'Untitled Note' }}
             <img v-if="note.pinned" src="/icons/pin.png" alt="Pinned" class="pin-icon"/>
             <img v-if="note.favorite" src="/icons/fav-filled.png" alt="Favorite" class="fav-icon"/>
           </span>
@@ -61,14 +61,25 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount, nextTick } from 'vue'
 
-const props = defineProps({ 
-  notes: Array, 
-  activeNoteId: String
- })
- 
-const emit = defineEmits(['add-note','select-note','reorder-notes','delete-note','rename-note','pin-note'])
+const props = defineProps({
+  notes: { 
+    type: Array, 
+    required: true
+   },
+  activeNoteId: { 
+    type: [String, Number], 
+    default: null }
+})
+const emit = defineEmits([
+  'add-note',
+  'select-note',
+  'reorder-notes',
+  'delete-note',
+  'rename-note',
+  'pin-note'
+])
 
 const openMenuId = ref(null)
 const renamingNoteId = ref(null)
@@ -78,45 +89,38 @@ const dragIndex = ref(null)
 const showFavorites = ref(false)
 
 function toggleMenu(noteId) {
-   openMenuId.value = openMenuId.value === noteId ? null : noteId }
+  openMenuId.value = openMenuId.value === noteId ? null : noteId
+}
 
 function handleClickOutside(event) {
   const menus = document.querySelectorAll('.menu-wrapper')
   let clickedInside = false
-  menus.forEach(menu => {
-    if(menu.contains(event.target)) clickedInside = true 
-  })
+  menus.forEach(menu => { if(menu.contains(event.target)) clickedInside = true })
   if(!clickedInside) openMenuId.value = null
 }
-onMounted(() => 
-  document.addEventListener('click', handleClickOutside))
-onBeforeUnmount(() =>
- document.removeEventListener('click', handleClickOutside))
+onMounted(() => document.addEventListener('click', handleClickOutside))
+onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside))
 
 function startRename(note) {
   renamingNoteId.value = note.id
-  renameInput.value = note.title || ''
+  renameInput.value = note.sidebarTitle || note.title || ''
   openMenuId.value = null
 }
 function confirmRename(noteId) {
-  const note = props.notes.find(n => n.id === noteId)
-  if(note) {
-     note.title = renameInput.value.trim() || 'Untitled Note'; 
-     emit('rename-note', note) 
-    }
+  const newTitle = renameInput.value.trim() || 'Untitled Note'
+  emit('rename-note', { id: noteId, title: newTitle })
   renamingNoteId.value = null
 }
 function cancelRename() { 
-  renamingNoteId.value = null 
-}
+  renamingNoteId.value = null
+ }
 
 function toggleDragMode() { 
   dragMode.value = !dragMode.value 
 }
 function dragStart(index) { 
-  dragIndex.value = index
- }
-
+  dragIndex.value = index 
+}
 function drop(dropIndex) {
   if(dragIndex.value === null) return
   const newNotes = [...props.notes]
@@ -127,12 +131,15 @@ function drop(dropIndex) {
 }
 
 function toggleFavorites() { 
-  showFavorites.value = !showFavorites.value 
-}
+  showFavorites.value = !showFavorites.value
+ }
 
 const filteredNotes = computed(() => {
   let notesList = props.notes
-  if (showFavorites.value) notesList = notesList.filter(n => n.favorite)
-  return notesList
+  if (showFavorites.value) 
+   notesList = notesList.filter(n => n.favorite)
+   return notesList
 })
+
+
 </script>
