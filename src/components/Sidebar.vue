@@ -24,7 +24,7 @@
           @dragover.prevent
           @drop="drop(index)"
           :class="{active: note.id === activeNoteId}">
-
+        
         <div class="note-title-wrapper">
           <input
             v-if="renamingNoteId === note.id"
@@ -34,9 +34,9 @@
             class="rename-input"
             autofocus
           />
-          <span
-            v-else
-            @click="$emit('select-note', note.id)"
+          <span 
+            v-else 
+            @click="$emit('select-note', note.id)" 
             @dblclick="startRename(note)">
             {{ note.sidebarTitle || note.title || 'Untitled Note' }}
             <img v-if="note.pinned" src="/icons/pin.png" alt="Pinned" class="pin-icon"/>
