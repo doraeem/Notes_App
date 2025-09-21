@@ -9,9 +9,15 @@
                 title="Show Favorites"> 
             <img src="/icons/fav.png" alt="fav">
         </button>
-        <button class="drag-btn"  @click="toggleDragMode"> 
-          <img src="/icons/drag.png" alt="drag">
+        
+       <button  class="drag-btn"  
+               :class="{ active: dragMode }"  
+               @click="toggleDragMode" 
+                title="Toggle Drag Mode"> 
+        <img :src="dragMode ? '/icons/drag-enabled.png' : '/icons/drag.png'" 
+             :alt="dragMode ? 'Drag Enabled' : 'Drag Disabled'">
         </button>
+
         <button class="add-btn" @click="$emit('add-note')"> + </button>
       </div>
     </div>
