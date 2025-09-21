@@ -6,19 +6,20 @@
       <Sidebar
         :notes="filteredNotes"
         :activeNoteId="activeNoteId"
-        @add-note="addNote" 
+        @add-note="addNote"
         @select-note="selectNote"
         @reorder-notes="reorderNotes"
         @delete-note="deleteNote"
         @pin-note="togglePinNote"
+        @rename-note="renameSidebarTitle"
       />
 
       <div class="editor">
         <NoteCard
-           v-if="activeNote"
-           :note="activeNote"
-           @save-note="saveNote" 
-           @go-back="goBack"
+          v-if="activeNote"
+          :note="activeNote"
+          @save-note="saveNote"
+          @go-back="goBack"
         />
         <p v-else>Select a note or add a new one.</p>
       </div>
@@ -27,10 +28,10 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import Header from './components/Header.vue'
 import Sidebar from './components/Sidebar.vue'
-import NoteCard from "./components/NoteCard.vue";
+import NoteCard from './components/NoteCard.vue'
 
 const notes = ref(JSON.parse(localStorage.getItem('notes')) || [])
 const activeNoteId = ref(null)
@@ -40,18 +41,23 @@ function uid() {
   return 'n_' + Math.random().toString(36).substr(2, 9)
 }
 
+// Persist notes
+watch(notes, (newVal) => {
+  localStorage.setItem('notes', JSON.stringify(newVal))
+}, { deep: true })
+
 function addNote() {
-  const newNote = { 
-    id: uid(), 
-    title: '', 
-    content: '', 
-    pinned: false, 
-    favorite: false, 
-    stickies: [] 
+  const newNote = {
+    id: uid(),
+    title: '',
+    sidebarTitle: '', 
+    content: '',
+    pinned: false,
+    favorite: false,
+    stickies: [],
   }
   notes.value.push(newNote)
   activeNoteId.value = newNote.id
-  persistNotes()
 }
 
 function selectNote(id) {
@@ -68,38 +74,32 @@ function saveNote(updatedNote) {
   activeNoteId.value = null
 }
 
+
 function deleteNote(id) {
-  const confirmed = confirm("Are you sure you want to delete this note?");
-  if (!confirmed) return
+  if (!confirm("Are you sure you want to delete this note?")) return
   notes.value = notes.value.filter(n => n.id !== id)
   if (activeNoteId.value === id) 
     activeNoteId.value = null
-  persistNotes()
 }
 
 function reorderNotes(newOrder) {
   notes.value = [...newOrder]
-  persistNotes()
 }
-
 
 function togglePinNote(noteId) {
   const note = notes.value.find(n => n.id === noteId)
   if (!note) return
 
-  if (!note.pinned) {
-    note.originalIndex = notes.value.indexOf(note)
-  }
+  if (!note.pinned)
+   note.originalIndex = notes.value.indexOf(note)
    note.pinned = !note.pinned
-   
+
   if (!note.pinned && note.originalIndex !== undefined) {
     const currentIndex = notes.value.indexOf(note)
-    notes.value.splice(currentIndex, 1) 
-    notes.value.splice(note.originalIndex, 0, note) 
-    delete note.originalIndex 
-  } else {
-    reorderPinnedNotes()
-  }
+    notes.value.splice(currentIndex, 1)
+    notes.value.splice(note.originalIndex, 0, note)
+    delete note.originalIndex
+  } else reorderPinnedNotes()
 }
 
 function reorderPinnedNotes() {
@@ -108,34 +108,25 @@ function reorderPinnedNotes() {
     if (!a.pinned && b.pinned) return 1
     return 0
   })
-  notes.value = [...notes.value] 
 }
 
 const filteredNotes = computed(() => {
-  let list = notes.value
-  if (searchQuery.value) {
-    list = list.filter(n => (n.title || '').toLowerCase().includes(searchQuery.value.toLowerCase()))
-  }
-  return list
+  if (!searchQuery.value) return notes.value
+  return notes.value.filter(n =>
+    (n.title || '').toLowerCase().includes(searchQuery.value.toLowerCase())
+  )
 })
 
-const activeNote = computed({
-  get() { 
-    return notes.value.find(n => n.id === activeNoteId.value) 
-  },
-  set(updatedNote) {
-    const idx = notes.value.findIndex(n => n.id === updatedNote.id)
-    if (idx !== -1) 
-      notes.value[idx] = { ...updatedNote }
-    persistNotes()
-  }
-})
+const activeNote = computed(() => notes.value.find(n => n.id === activeNoteId.value))
 
-function goBack() { 
-  activeNoteId.value = null 
+function goBack() {
+  activeNoteId.value = null
 }
 
-function persistNotes() {
-  localStorage.setItem('notes', JSON.stringify(notes.value))
+
+function renameSidebarTitle({ id, title }) {
+  const note = notes.value.find(n => n.id === id)
+  if (note) 
+   note.sidebarTitle = title
 }
 </script>
