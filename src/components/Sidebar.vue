@@ -23,7 +23,8 @@
           @dragstart="dragStart(index)" 
           @dragover.prevent 
           @drop="drop(index)"
-          :class="{active: note.id === activeNoteId}">
+          :class="{active: note.id === activeNoteId}"
+          @click="$emit('select-note', note.id)" >
         
         <div class="note-title-wrapper">
           <input 
@@ -36,7 +37,6 @@
           />
           <span 
             v-else 
-            @click="$emit('select-note', note.id)" 
             @dblclick="startRename(note)">
             {{ note.title || 'Untitled Note' }}
             <img v-if="note.pinned" src="/icons/pin.png" alt="Pinned" class="pin-icon"/>
